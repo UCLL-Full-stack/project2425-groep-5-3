@@ -1,6 +1,5 @@
-# Project template
+# EventPlanner
 
-
-Change this readme file to describe your project, change the title and fill in your name below.
+This repository contains code of an event planner.
 
 ### Robin De Koninck
