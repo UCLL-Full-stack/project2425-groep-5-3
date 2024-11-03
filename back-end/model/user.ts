@@ -16,6 +16,7 @@ export class User {
         profile: Profile;
         role: Role;
     }) {
+        this.validate(user);
         this.id = user.id;
         this.username = user.username;
         this.password = user.password;
@@ -53,6 +54,31 @@ export class User {
 
     setProfile(profile: Profile) {
         this.profile = profile;
+    }
+
+    validate(user: {
+        username: string;
+        password: string;
+        profile: Profile;
+        role: Role;
+    }) {
+        if (!user.username?.trim()) {
+            throw new Error('Username is required');
+        }
+        if (!user.password?.trim()) {
+            throw new Error('Password is required');
+        }
+        if (user.profile) {
+            user.profile.validate({
+                firstName: user.profile.getFirstName(),
+                lastName: user.profile.getLastName(),
+                email: user.profile.getEmail(),
+                gender: user.profile.getGender(),
+            });
+        }
+        if (!user.role) {
+            throw new Error('Role is required');
+        }
     }
 
     equals(user: User): boolean {

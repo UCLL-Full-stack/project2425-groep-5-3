@@ -14,6 +14,7 @@ export class Event {
         createdAt: Date;
         eventInfo: EventInfo;
     }) {
+        this.validate(event);
         this.id = event.id;
         this.title = event.title;
         this.description = event.description;
@@ -55,6 +56,26 @@ export class Event {
     
     setEventInfo(eventInfo: EventInfo): void {
         this.eventInfo = eventInfo;
+    }
+
+    validate(event: {
+        title: string;
+        description: string;
+        createdAt: Date;
+        eventInfo: EventInfo;
+    }) {
+        if (!event.title?.trim()) {
+            throw new Error('Title of event is required');
+        }
+        if (!event.description?.trim()) {
+            throw new Error('Event description is required');
+        }
+        if (!event.createdAt) {
+            throw new Error('Date of created event is required');
+        }
+        if (!event.eventInfo) {
+            throw new Error('EventInfo is required');
+        }
     }
 
     equals(event: Event): boolean {

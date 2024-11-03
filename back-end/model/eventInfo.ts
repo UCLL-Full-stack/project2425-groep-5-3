@@ -4,6 +4,7 @@ export class EventInfo {
     private location: string;
   
     constructor(eventInfo: { id?: number; category: string; location: string;}) {
+      this.validate(eventInfo);
       this.id = eventInfo.id;
       this.category = eventInfo.category;
       this.location = eventInfo.location;
@@ -28,5 +29,24 @@ export class EventInfo {
     setLocation(location: string): void {
       this.location = location;
     }
-  }
+
+    validate(eventInfo: {
+      category: string;
+      location: string;
+    }) {
+      if (!eventInfo.category?.trim()) {
+          throw new Error('Category is required');
+      }
+      if (!eventInfo.location?.trim()) {
+          throw new Error('Location is required');
+      }
+    }
+
+    equals(eventInfo: EventInfo): boolean {
+        return (
+            this.category === eventInfo.getCategory() &&
+            this.location === eventInfo.getLocation()
+        );
+    }
+}
   

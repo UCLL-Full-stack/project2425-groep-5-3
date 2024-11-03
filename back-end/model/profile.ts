@@ -6,6 +6,7 @@ export class Profile {
     private gender: string;
   
     constructor(profile: { id?: number; firstName: string; lastName: string; email: string; gender: string }) {
+      this.validate(profile);
       this.id = profile.id;
       this.firstName = profile.firstName;
       this.lastName = profile.lastName;
@@ -47,6 +48,27 @@ export class Profile {
 
     setGender(gender: string): void {
         this.gender = gender;
+    }
+
+    validate(profile: {
+        firstName: string;
+        lastName: string;
+        email: string;
+        gender: string;
+    }) {
+        if (!profile.firstName?.trim()) {
+            throw new Error('First Name is required');
+        }
+        if (!profile.lastName?.trim()) {
+            console.log('Last Name is required')
+            throw new Error('Last Name is required');
+        }
+        if (!profile.email?.trim()) {
+            throw new Error('Email is required');
+        }
+        if (!profile.gender) {
+            throw new Error('Gender is required');
+        }
     }
   }
   
