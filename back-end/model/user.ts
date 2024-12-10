@@ -8,6 +8,7 @@ export class User {
     private password: string;
     private profile: Profile;
     private role: Role;
+    private events: Event[];
 
     constructor(user: {
         id?: number;
@@ -15,6 +16,7 @@ export class User {
         password: string;
         profile: Profile;
         role: Role;
+        events?: Event[];
     }) {
         this.validate(user);
         this.id = user.id;
@@ -22,6 +24,7 @@ export class User {
         this.password = user.password;
         this.profile = user.profile;
         this.role = user.role;
+        this.events = user.events || [];
     }
 
     getId(): number | undefined {
@@ -44,6 +47,10 @@ export class User {
         return this.role;
     }
 
+    getEvents(): Event[] {
+        return this.events;
+    }
+
     setUsername(userName: string) {
         this.username = userName;
     }
@@ -61,6 +68,7 @@ export class User {
         password: string;
         profile: Profile;
         role: Role;
+        events?: Event[];
     }) {
         if (!user.username?.trim()) {
             throw new Error('Username is required');
@@ -86,7 +94,7 @@ export class User {
             this.username === user.getUsername() &&
             this.password === user.getPassword() &&
             this.profile === user.getProfile() &&
-            this.role === user.getRole()
-        );
+            this.role === user.getRole() &&
+            this.events.every(event => user.getEvents().includes(event)));
     }
 }

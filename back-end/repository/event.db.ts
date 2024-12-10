@@ -7,22 +7,27 @@ const events: Event[] = [
         title: 'Conference',
         description: 'Tech conference',
         createdAt: new Date(),
-        eventInfo: new EventInfo({
+        eventInfos: [new EventInfo({
             id : 1,
             category: "IT",
             location: "Leuven"
-        })
+        })]
     }),
     new Event({ 
         id: 2,
         title: 'Meeting',
         description: 'Schedule changes',
         createdAt: new Date(),
-        eventInfo: new EventInfo({
-            id : 2,
+        eventInfos: [new EventInfo({
+            id: 2,
             category: "Work",
             location: "Zaventem"
-        })
+        }),
+        new EventInfo({
+            id: 3,
+            category: "HR",
+            location: "Brussels"
+        })]
     }),
 ];
 

@@ -13,6 +13,8 @@ type UserInput = {
     username: string;
     password: string;
     profile: ProfileInput;
+    role: Role;
+    events: EventInput[];
 };
 
 type EventInfoInput = {
@@ -26,7 +28,8 @@ type EventInput = {
     title: string;
     description: string;
     createdAt: Date;
-    eventInfo: EventInfoInput;
+    eventInfo: EventInfoInput[];
+    users: UserInput[]
 }
 
 export {
