@@ -1,3 +1,9 @@
+import {
+  Profile as ProfilePrisma,
+  Event as EventPrisma,
+  User as UserPrisma
+} from '@prisma/client';
+
 export class Profile {
     private id?: number;
     private firstName: string;
@@ -13,6 +19,16 @@ export class Profile {
       this.email = profile.email;
       this.gender = profile.gender;
     }
+
+    static from({id, firstName, lastName, email, gender}: ProfilePrisma){
+      return new Profile({
+          id,
+          firstName,
+          lastName,
+          email,
+          gender,
+      });
+  }
   
     getId(): number | undefined {
       return this.id;

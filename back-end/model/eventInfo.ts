@@ -1,3 +1,6 @@
+import {
+  EventInfo as EventInfoPrisma
+} from '@prisma/client';
 export class EventInfo {
     private id?: number;
     private category: string;
@@ -9,6 +12,14 @@ export class EventInfo {
       this.category = eventInfo.category;
       this.location = eventInfo.location;
     }
+
+    static from({id, category, location}: EventInfoPrisma){
+      return new EventInfo({
+          id,
+          category,
+          location,
+      });
+  }
   
     getId(): number | undefined {
       return this.id;

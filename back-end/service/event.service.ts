@@ -1,14 +1,14 @@
 import eventDB from '../repository/event.db';
 import { Event } from '../model/event';
 
-const getAllEvents = (): Event[] => eventDB.getAllEvents();
+const getAllEvents = async (): Promise<Event[]> => eventDB.getAllEvents();
 
-const getEventById = (id: number): Event => {
-    const event = eventDB.getEventById({ id });
+const getEventById = async (id: number): Promise<Event> => {
+    const event = await eventDB.getEventById({ id });
     if (!event) {
         throw new Error(`Event with id ${id} does not exist.`);
     }
     return event;
 };
 
-export default { getAllEvents, getEventById };
+export default { getAllEvents, getEventById};

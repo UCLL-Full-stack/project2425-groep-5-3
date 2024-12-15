@@ -1,41 +1,45 @@
 import { User } from '../model/user';
-import { Profile } from '../model/profile';
+import database from './database';
 
-const users: User[] = [
-    new User({ 
-        id: 1,
-        username: 'Robz459',
-        password: '123',
-        profile: new Profile({
-            id : 1,
-            firstName: "Robin",
-            lastName: "De Koninck",
-            email: "r0804949@ucll.be",
-            gender: "M"
-        }),
-        role: "admin"
-    }),
-    new User({ 
-        id: 2,
-        username: 'appel',
-        password: 'password',
-        profile: new Profile({
-            id : 2,
-            firstName: "max",
-            lastName: "Verstraeten",
-            email: "max@gmail.be",
-            gender: "M"
-        }),
-        role: "guest"
-    }),
-];
-
-const getAllUsers = (): User[] => {
-    return users;
+const getAllUsers = async (): Promise<User[]> => {
+    try {
+        const usersPrisma = await database.user.findMany({
+            include: {
+                profile: true,
+                events: {
+                    include: {
+                        eventInfos: true,
+                    },
+                },
+            },
+        });
+        return usersPrisma.map((userPrisma) => User.from(userPrisma));
+    } catch(error) {
+        console.error(error);
+        throw new Error('Database error: See servor log for details.');
+    }
 };
 
-const getUserById = ({ id }: { id: number }): User | undefined => {
-    return users.find(user => user.getId() === id);
+const getUserById = async ({ id }: { id: number }): Promise<User | null> => {
+    try {
+        const userPrisma = await database.user.findUnique({
+            where: { id },
+            include: {
+                profile: true,
+                events: {
+                    include: {
+                        eventInfos: true,
+                    },
+                },
+            },
+        });
+
+        return userPrisma ? User.from(userPrisma) : null;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
 };
 
-export default { getAllUsers, getUserById };
+
+export default { getAllUsers, getUserById};

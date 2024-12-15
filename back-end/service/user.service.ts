@@ -1,14 +1,14 @@
 import userDB from '../repository/user.db';
 import { User } from '../model/user';
 
-const getAllUsers = (): User[] => userDB.getAllUsers();
+const getAllUsers = async (): Promise<User[]> => userDB.getAllUsers();
 
-const getUserById = (id: number): User => {
-    const user = userDB.getUserById({ id });
+const getUserById = async (id: number): Promise<User> => {
+    const user = await userDB.getUserById({ id });
     if (!user) {
         throw new Error(`User with id ${id} does not exist.`);
     }
     return user;
 };
 
-export default { getAllUsers, getUserById };
+export default { getAllUsers, getUserById};

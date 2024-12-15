@@ -1,21 +1,28 @@
-import { ro } from "date-fns/locale";
 import { Role } from "../types";
 import { Profile } from "./profile";
+import { Event } from "./event";
+import {
+    Profile as ProfilePrisma,
+    Event as EventPrisma,
+    User as UserPrisma,
+    EventInfo as EventInfoPrisma
+} from '@prisma/client';
+import { EventInfo } from "./eventInfo";
 
 export class User {
     private id?: number;
     private username: string;
     private password: string;
-    private profile: Profile;
-    private role: Role;
+    private profile?: Profile;
+    //private role: Role;
     private events: Event[];
 
     constructor(user: {
         id?: number;
         username: string;
         password: string;
-        profile: Profile;
-        role: Role;
+        profile?: Profile;
+        //role: Role;
         events?: Event[];
     }) {
         this.validate(user);
@@ -23,8 +30,18 @@ export class User {
         this.username = user.username;
         this.password = user.password;
         this.profile = user.profile;
-        this.role = user.role;
+        //this.role = user.role;
         this.events = user.events || [];
+    }
+
+    static from({id, username, password, profile, events}: UserPrisma & {profile?: ProfilePrisma | null; events: (EventPrisma & { eventInfos: EventInfoPrisma[]})[] }) {
+        return new User({
+            id,
+            username,
+            password,
+            profile: profile ? Profile.from(profile) : undefined,
+            events: events.map((event) => Event.from(event)),
+        });
     }
 
     getId(): number | undefined {
@@ -43,9 +60,9 @@ export class User {
         return this.profile;
     }
 
-    getRole(): Role | undefined{
-        return this.role;
-    }
+    // getRole(): Role | undefined{
+    //     return this.role;
+    // }
 
     getEvents(): Event[] {
         return this.events;
@@ -66,8 +83,8 @@ export class User {
     validate(user: {
         username: string;
         password: string;
-        profile: Profile;
-        role: Role;
+        profile?: Profile;
+        // role: Role;
         events?: Event[];
     }) {
         if (!user.username?.trim()) {
@@ -84,9 +101,9 @@ export class User {
                 gender: user.profile.getGender(),
             });
         }
-        if (!user.role) {
-            throw new Error('Role is required');
-        }
+        // if (!user.role) {
+        //     throw new Error('Role is required');
+        // }
     }
 
     equals(user: User): boolean {
@@ -94,7 +111,7 @@ export class User {
             this.username === user.getUsername() &&
             this.password === user.getPassword() &&
             this.profile === user.getProfile() &&
-            this.role === user.getRole() &&
+            // this.role === user.getRole() &&
             this.events.every(event => user.getEvents().includes(event)));
     }
 }

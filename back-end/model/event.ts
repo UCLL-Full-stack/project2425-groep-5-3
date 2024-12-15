@@ -1,5 +1,11 @@
 import { EventInfo } from "./eventInfo";
 import { User } from "./user";
+import {
+    Profile as ProfilePrisma,
+    Event as EventPrisma,
+    User as UserPrisma,
+    EventInfo as EventInfoPrisma
+} from '@prisma/client';
 
 export class Event {
     private id?: number;
@@ -7,7 +13,6 @@ export class Event {
     private description: string;
     private createdAt: Date;
     private eventInfos: EventInfo[];
-    private users: User[];
 
     constructor(event: {
         id?: number;
@@ -15,7 +20,6 @@ export class Event {
         description: string;
         createdAt: Date;
         eventInfos?: EventInfo[];
-        users?: User[];
     }) {
         this.validate(event);
         this.id = event.id;
@@ -23,7 +27,16 @@ export class Event {
         this.description = event.description;
         this.createdAt = event.createdAt;
         this.eventInfos = event.eventInfos || [];
-        this.users = event.users || [];
+    }
+
+    static from({id, title, description, createdAt, eventInfos}: EventPrisma & {eventInfos: EventInfoPrisma[]}){
+        return new Event({
+            id,
+            title,
+            description,
+            createdAt,
+            eventInfos: eventInfos.map((eventInfo) => EventInfo.from(eventInfo))
+        });
     }
 
     getId(): number | undefined {
@@ -44,10 +57,6 @@ export class Event {
 
     getEventInfos(): EventInfo[] {
         return this.eventInfos;
-    }
-
-    getUsers(): User[] {
-        return this.users;
     }
 
     setTitle(title: string): void {
@@ -85,8 +94,7 @@ export class Event {
             this.title === event.getTitle() &&
             this.description === event.getDescription() &&
             this.createdAt === event.getCreatedAt() &&
-            this.eventInfos.every((eventInfo, index) => eventInfo.equals(event.getEventInfos()[index])) &&
-            this.users.every(user => event.getUsers().includes(user))
+            this.eventInfos.every((eventInfo, index) => eventInfo.equals(event.getEventInfos()[index]))
         );
     }
 }
