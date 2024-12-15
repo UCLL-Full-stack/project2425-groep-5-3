@@ -29,8 +29,8 @@ const Events: React.FC = () => {
             </Head>
             <Header>
             </Header>
-            <main className="d-flex flex-column justify-content-center align-items-center">
-                <h1>Events</h1>
+            <main className="container mt-4">
+                <h1 className="text-center mb-4 text-primary">Events</h1>
                 <section>
                     {events && (
                         <EventOverviewTable events={events} selectEvent={setSelectedEvent} />

@@ -14,16 +14,13 @@ const Home: React.FC = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main className={styles.main}>
-        <span>
-          <h1>Welcome!</h1>
-        </span>
-
-        <div className={styles.description}>
-          <p>
-            Event Planner gives users oppertunities of participating an event of their choice. <br />
+      <main className="d-flex flex-column justify-content-center align-items-center py-5">
+        <section className="text-center">
+          <h1 className="display-3 text-primary">Welcome to Event Planner!</h1>
+          <p className="lead text-muted">
+            Event Planner gives users opportunities to participate in events of their choice.
           </p>
-        </div>
+        </section>
       </main>
     </>
   );

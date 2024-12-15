@@ -1,96 +1,98 @@
-// import { StatusMessage } from "@types";
-// import classNames from "classnames";
-// import { useRouter } from "next/router";
-// import { useState } from "react";
+import { StatusMessage } from "@types";
+import classNames from "classnames";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
-// const UserLoginForm: React.FC = () => {
-//   const router = useRouter();
-//   const [name, setName] = useState("");
-//   const [nameError, setNameError] = useState(null);
-//   const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
+const UserLoginForm: React.FC = () => {
+    const router = useRouter();
+    const [username, setUsername] = useState("");
+    const [usernameError, setUsernameError] = useState(null);
+    const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
 
-//   const clearErrors = () => {
-//     //reset errors and status messages
-//     setNameError(null);
-//     setStatusMessages([]);
-//   };
+    const clearErrors = () => {
+        //reset errors and status messages
+        setUsernameError(null);
+        setStatusMessages([]);
+    };
 
-//   const validate = (): boolean => {
-//     let result = true;
+    const validate = (): boolean => {
+        let result = true;
 
-//     if (!name || name.trim() === "") {
-//       // set error here
-//       setNameError("Name is required");
-//       result = false;
-//     }
+        if (!username || username.trim() === "") {
+            // set error here
+            setUsernameError("Username is required");
+            result = false;
+        }
 
-//     return result;
-//   };
+        return result;
+    };
 
-//   const handleSubmit = async (event) => {
-//     event.preventDefault();
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
-//     clearErrors();
+        clearErrors();
 
-//     if (!validate()) {
-//       return;
-//     }
+        if (!validate()) {
+            return;
+        }
 
-//     setStatusMessages([{ message: `Login successful. Redirecting to homepage...`, type: "success" }]);
+        setStatusMessages([{ message: `Login successful. Redirecting to homepage...`, type: "success" }]);
 
-//     sessionStorage.setItem("loggedInUser", name);
+        sessionStorage.setItem("loggedInUser", username);
 
-//     setTimeout(() => {
-//       router.push("/");
-//     }, 2000);
-//   };
+        setTimeout(() => {
+            router.push("/");
+        }, 2000);
+    };
 
-//   return (
-//     <>
-//       <h3 className="px-0">Login</h3>
-//       {statusMessages && (
-//         <div className="row">
-//           <ul className="list-none mb-3 mx-auto ">
-//             {statusMessages.map(({ message, type }, index) => (
-//               <li
-//                 key={index}
-//                 className={classNames({
-//                   "text-red-800": type === "error",
-//                   "text-green-800": type === "success",
-//                 })}
-//               >
-//                 {message}
-//               </li>
-//             ))}
-//           </ul>
-//         </div>
-//       )}
-//       <form onSubmit={handleSubmit}>
-//         <label htmlFor="nameInput" className="block mb-2 text-sm font-medium">
-//           Username:
-//         </label>
-//         <div className="block mb-2 text-sm font-medium">
-//           <input
-//             id="nameInput"
-//             type="text"
-//             value={name}
-//             onChange={(event) => setName(event.target.value)}
-//             className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue:500 block w-full p-2.5"
-//           />
-//           {nameError && (
-//             <div className="text-red-800">{nameError}</div>
-//           )}
-//         </div>
+    return (
+        <>
+            <div className="container mt-5 p-4 border rounded shadow-sm bg-white" style={{ maxWidth: "400px" }}>
+                <h3 className="text-center mb-4 fw-bold text-primary">Login</h3>
 
-//         <button
-//           className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-//           type="submit"
-//         >
-//           Login
-//         </button>
-//       </form>
-//     </>
-//   );
-// };
+                {statusMessages && (
+                    <div className="mb-3">
+                        <ul className="list-unstyled text-center">
+                            {statusMessages.map(({ message, type }, index) => (
+                                <li
+                                    key={index}
+                                    className={classNames("fw-semibold", {
+                                        "text-danger": type === "error",
+                                        "text-success": type === "success",
+                                    })}
+                                >
+                                    {message}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
 
-// export default UserLoginForm;
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-3">
+                        <label htmlFor="nameInput" className="form-label fw-semibold">
+                            Username:
+                        </label>
+                        <input
+                            id="nameInput"
+                            type="text"
+                            value={username}
+                            onChange={(event) => setUsername(event.target.value)}
+                            className={`form-control ${usernameError ? "is-invalid" : ""}`}
+                            placeholder="Enter your username"
+                        />
+                        {usernameError && (
+                            <div className="invalid-feedback">{usernameError}</div>
+                        )}
+                    </div>
+
+                    <button type="submit" className="btn btn-primary w-100 fw-semibold py-2">
+                        Login
+                    </button>
+                </form>
+            </div>
+        </>
+    );
+};
+
+export default UserLoginForm;

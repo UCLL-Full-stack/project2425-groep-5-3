@@ -46,3 +46,9 @@ button {
     padding: 0.5rem 1rem;
     font-weight: bold;
 }
+
+.table-hover tr:hover,
+.table-hover tr:focus,
+.table-hover tr:active {
+    background-color: transparent !important;
+}

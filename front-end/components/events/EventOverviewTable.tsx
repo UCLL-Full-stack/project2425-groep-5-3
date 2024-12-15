@@ -12,8 +12,8 @@ const EventOverviewTable: React.FC<Props> = ({
 }: Props) => {
     return (
         <>
-            {events && (
-                <table className="text-left">
+            {events && events.length > 0 ? (
+                <table className="table table-striped table-hover">
                     <thead>
                         <tr>
                             <th scope="col">Title</th>
@@ -25,13 +25,18 @@ const EventOverviewTable: React.FC<Props> = ({
                             <tr
                                 key={index}
                                 onClick={() => selectEvent(event)}
-                                role="button">
+                                role="button"
+                                className="cursor-pointer"
+                                aria-label={`Select event: ${event.title}`}
+                            >
                                 <td>{event.title}</td>
                                 <td>{event.description}</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
+            ) : (
+                <p className="text-center text-muted">No events available.</p>
             )}
         </>
     );

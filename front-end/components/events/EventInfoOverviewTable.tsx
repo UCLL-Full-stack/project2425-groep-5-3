@@ -10,16 +10,16 @@ const EventInfoOverviewTable: React.FC<Props> = ({
 }: Props) => {
     return (
         <>
-            {event && (
-                <table className="text-left">
+            {event && event.eventInfos && event.eventInfos.length > 0 ? (
+                <table className="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">Category</th>
-                            <th scope="col">Location</th>
+                            <th scope="col" style={{ width: '25%' }}>Category</th>
+                            <th scope="col" style={{ width: '75%' }}>Location</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {event.eventInfos && event.eventInfos.map((eventInfo, index) => (
+                        {event.eventInfos.map((eventInfo, index) => (
                             <tr key={index}>
                                 <td>{eventInfo.category}</td>
                                 <td>{eventInfo.location}</td>
@@ -27,6 +27,8 @@ const EventInfoOverviewTable: React.FC<Props> = ({
                         ))}
                     </tbody>
                 </table>
+            ) : (
+                <p className="text-center text-muted">No event details available.</p>
             )}
         </>
     );
