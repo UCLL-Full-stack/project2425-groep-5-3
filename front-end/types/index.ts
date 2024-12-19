@@ -1,9 +1,7 @@
 export type User = {
     username?: string;
     password?: string;
-    profile: Profile;
     role?: string;
-    events: Event[];
 }
 
 export type Profile = {

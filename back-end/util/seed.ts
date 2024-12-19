@@ -7,7 +7,8 @@ const prisma = new PrismaClient();
 const main = async () => {
     await prisma.eventInfo.deleteMany();
     await prisma.event.deleteMany();
-    await prisma.profile.deleteMany({});
+    await prisma.participant.deleteMany();
+    await prisma.profile.deleteMany();
     await prisma.user.deleteMany();
 
     const fullstack = await prisma.event.create({
@@ -41,7 +42,8 @@ const main = async () => {
     const admin = await prisma.user.create({
         data: {
             username: 'admin',
-            password: 'admin123',
+            password: await bcrypt.hash('admin123', 12),
+            role: 'admin',
             profile: {
                 create: {
                     firstName: "Robin",
@@ -50,9 +52,6 @@ const main = async () => {
                     gender: "M",
                 },
             },
-            events: {
-                connect: [{ id: fullstack.id }, { id: databaseBasics.id }], 
-            },
         },
         
     });
@@ -60,7 +59,8 @@ const main = async () => {
     const guest = await prisma.user.create({
         data: {
             username: 'guest',
-            password: 'guest123',
+            password: await bcrypt.hash('guest123', 12),
+            role: 'guest',
             profile: {
                 create: {
                     firstName: "gue",
@@ -71,6 +71,21 @@ const main = async () => {
             },
         },
     });
+
+    const participant1 = await prisma.participant.create({
+      data: {
+          user: {
+              create: {
+                  username: 'participant',
+                  password: await bcrypt.hash('participant123', 12),
+                  role: 'participant'
+              },
+          },
+          events: {
+              connect: [{ id: fullstack.id }, { id: databaseBasics.id }],
+          },
+      },
+  });
     
 };
 

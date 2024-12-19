@@ -13,34 +13,27 @@ export class User {
     private id?: number;
     private username: string;
     private password: string;
-    private profile?: Profile;
-    //private role: Role;
-    private events: Event[];
+    private role: Role;
 
     constructor(user: {
         id?: number;
         username: string;
         password: string;
-        profile?: Profile;
-        //role: Role;
-        events?: Event[];
+        role: Role;
     }) {
         this.validate(user);
         this.id = user.id;
         this.username = user.username;
         this.password = user.password;
-        this.profile = user.profile;
-        //this.role = user.role;
-        this.events = user.events || [];
+        this.role = user.role;
     }
 
-    static from({id, username, password, profile, events}: UserPrisma & {profile?: ProfilePrisma | null; events: (EventPrisma & { eventInfos: EventInfoPrisma[]})[] }) {
+    static from({id, username, password, role}: UserPrisma) {
         return new User({
             id,
             username,
             password,
-            profile: profile ? Profile.from(profile) : undefined,
-            events: events.map((event) => Event.from(event)),
+            role: role as Role,
         });
     }
 
@@ -56,16 +49,8 @@ export class User {
         return this.password;
     }
 
-    getProfile(): Profile | undefined{
-        return this.profile;
-    }
-
-    // getRole(): Role | undefined{
-    //     return this.role;
-    // }
-
-    getEvents(): Event[] {
-        return this.events;
+    getRole(): Role{
+        return this.role;
     }
 
     setUsername(userName: string) {
@@ -76,16 +61,10 @@ export class User {
         this.password = password;
     }
 
-    setProfile(profile: Profile) {
-        this.profile = profile;
-    }
-
     validate(user: {
         username: string;
         password: string;
-        profile?: Profile;
-        // role: Role;
-        events?: Event[];
+        role: Role;
     }) {
         if (!user.username?.trim()) {
             throw new Error('Username is required');
@@ -93,25 +72,16 @@ export class User {
         if (!user.password?.trim()) {
             throw new Error('Password is required');
         }
-        if (user.profile) {
-            user.profile.validate({
-                firstName: user.profile.getFirstName(),
-                lastName: user.profile.getLastName(),
-                email: user.profile.getEmail(),
-                gender: user.profile.getGender(),
-            });
+        if (!user.role) {
+            throw new Error('Role is required');
         }
-        // if (!user.role) {
-        //     throw new Error('Role is required');
-        // }
     }
 
     equals(user: User): boolean {
         return (
             this.username === user.getUsername() &&
             this.password === user.getPassword() &&
-            this.profile === user.getProfile() &&
-            // this.role === user.getRole() &&
-            this.events.every(event => user.getEvents().includes(event)));
+            this.role === user.getRole()
+        )
     }
 }

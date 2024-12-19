@@ -3,6 +3,7 @@ import {
   Event as EventPrisma,
   User as UserPrisma
 } from '@prisma/client';
+import { User } from './user';
 
 export class Profile {
     private id?: number;
@@ -10,25 +11,18 @@ export class Profile {
     private lastName: string;
     private email: string;
     private gender: string;
+    private user: User;
   
-    constructor(profile: { id?: number; firstName: string; lastName: string; email: string; gender: string }) {
+    constructor(profile: { id?: number; firstName: string; lastName: string; email: string; gender: string , user: User}) {
       this.validate(profile);
       this.id = profile.id;
       this.firstName = profile.firstName;
       this.lastName = profile.lastName;
       this.email = profile.email;
       this.gender = profile.gender;
+      this.user = profile.user;
     }
 
-    static from({id, firstName, lastName, email, gender}: ProfilePrisma){
-      return new Profile({
-          id,
-          firstName,
-          lastName,
-          email,
-          gender,
-      });
-  }
   
     getId(): number | undefined {
       return this.id;
@@ -48,6 +42,10 @@ export class Profile {
 
     getGender(): string {
         return this.gender;
+    }
+
+    getUser(): User {
+      return this.user;
     }
   
     setFirstName(firstName: string): void {
@@ -71,6 +69,7 @@ export class Profile {
         lastName: string;
         email: string;
         gender: string;
+        user: User;
     }) {
         if (!profile.firstName?.trim()) {
             throw new Error('First Name is required');
@@ -85,6 +84,19 @@ export class Profile {
         if (!profile.gender) {
             throw new Error('Gender is required');
         }
+        if(!profile.user) {
+          throw new Error('Profile is not linked to valid user');
+        }
     }
+
+    equals(profile: Profile): boolean {
+      return (
+          this.firstName === profile.getFirstName() &&
+          this.lastName === profile.getLastName() &&
+          this.email === profile.getEmail() &&
+          this.gender === profile.getGender() &&
+          this.user.equals(profile.getUser())
+      );
+  }
   }
   

@@ -1,4 +1,4 @@
-type Role = 'admin' | 'guest';
+type Role = 'admin' | 'participant' | 'guest';
 
 type ProfileInput = {
     id?: number;
@@ -12,9 +12,7 @@ type UserInput = {
     id?: number;
     username: string;
     password: string;
-    profile: ProfileInput;
     role: Role;
-    events: EventInput[];
 };
 
 type EventInfoInput = {
@@ -27,10 +25,15 @@ type EventInput = {
     id?: number;
     title: string;
     description: string;
-    createdAt: Date;
     eventInfo: EventInfoInput[];
     users: UserInput[]
 }
+
+type AuthenticationResponse = {
+    token: string;
+    username: string;
+    role: string;
+};
 
 export {
     Role,
@@ -38,4 +41,5 @@ export {
     ProfileInput,
     EventInfoInput,
     EventInput,
+    AuthenticationResponse
 };
