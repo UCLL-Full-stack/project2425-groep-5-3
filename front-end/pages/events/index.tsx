@@ -12,6 +12,7 @@ const Events: React.FC = () => {
 
     const getEvents = async () => {
         const response = await EventService.getAllEvents();
+        console.log("API Response:", response.status); // Log response
         const events = await response.json();
         setEvents(events);
     }

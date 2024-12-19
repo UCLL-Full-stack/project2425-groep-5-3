@@ -1,11 +1,13 @@
+import { User } from '@/types';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import Language from './language/Language';
 
 const Header: React.FC = () => {
-    const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
+    const [loggedInUser, setLoggedInUser] = useState<User>(null);
 
     useEffect(() => {
-        setLoggedInUser(sessionStorage.getItem("loggedInUser"));
+        setLoggedInUser(JSON.parse(sessionStorage.getItem("loggedInUser")));
     }, []);
 
     const handleClick = () => {
@@ -45,9 +47,10 @@ const Header: React.FC = () => {
 
                 {loggedInUser && (
                     <div className="nav-link fs-5 text-white px-3 py-2">
-                        Welcome, {loggedInUser}!
+                        Welcome, {loggedInUser.username}!
                     </div>
                 )}
+                <Language />
             </nav>
         </header>
 

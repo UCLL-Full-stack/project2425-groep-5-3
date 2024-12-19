@@ -1,3 +1,4 @@
+import UserService from "@/services/UserService";
 import { StatusMessage } from "@types";
 import classNames from "classnames";
 import { useRouter } from "next/router";
@@ -6,12 +7,15 @@ import { useState } from "react";
 const UserLoginForm: React.FC = () => {
     const router = useRouter();
     const [username, setUsername] = useState("");
-    const [usernameError, setUsernameError] = useState(null);
+    const [password, setPassword] = useState("");
+    const [usernameError, setUsernameError] = useState<string | null>(null);
+    const [passwordError, setPasswordError] = useState<string | null>(null);
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
 
     const clearErrors = () => {
         //reset errors and status messages
         setUsernameError(null);
+        setPasswordError(null);
         setStatusMessages([]);
     };
 
@@ -21,6 +25,11 @@ const UserLoginForm: React.FC = () => {
         if (!username || username.trim() === "") {
             // set error here
             setUsernameError("Username is required");
+            result = false;
+        }
+
+        if (!password && password.trim() === "") {
+            setPasswordError("Password is required");
             result = false;
         }
 
@@ -36,13 +45,27 @@ const UserLoginForm: React.FC = () => {
             return;
         }
 
-        setStatusMessages([{ message: `Login successful. Redirecting to homepage...`, type: "success" }]);
+        const user = { username, password };
+        const response = await UserService.loginUser(user);
 
-        sessionStorage.setItem("loggedInUser", username);
+        if (response.status === 200) {
+            setStatusMessages([{ message: `Login successful. Redirecting to homepage...`, type: "success" }]);
 
-        setTimeout(() => {
-            router.push("/");
-        }, 2000);
+            const user = await response.json();
+            sessionStorage.setItem(
+                "loggedInUser",
+                JSON.stringify({
+                    token: user.token,
+                    username: user.username,
+                    role: user.role,
+                })
+            );
+
+
+            setTimeout(() => {
+                router.push("/");
+            }, 2000);
+        };
     };
 
     return (
@@ -79,10 +102,24 @@ const UserLoginForm: React.FC = () => {
                             value={username}
                             onChange={(event) => setUsername(event.target.value)}
                             className={`form-control ${usernameError ? "is-invalid" : ""}`}
-                            placeholder="Enter your username"
                         />
                         {usernameError && (
                             <div className="invalid-feedback">{usernameError}</div>
+                        )}
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="nameInput" className="form-label fw-semibold">
+                            Password:
+                        </label>
+                        <input
+                            id="passwordInput"
+                            type="password"
+                            value={password}
+                            onChange={(event) => setPassword(event.target.value)}
+                            className={`form-control ${passwordError ? "is-invalid" : ""}`}
+                        />
+                        {usernameError && (
+                            <div className="invalid-feedback">{passwordError}</div>
                         )}
                     </div>
 

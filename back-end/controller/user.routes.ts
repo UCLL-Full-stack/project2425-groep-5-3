@@ -115,6 +115,8 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  * @swagger
  * /users/{id}:
  *   get:
+ *     security:
+ *      - bearerAuth: []
  *     summary: Get a user by id.
  *     parameters:
  *       - in: path
