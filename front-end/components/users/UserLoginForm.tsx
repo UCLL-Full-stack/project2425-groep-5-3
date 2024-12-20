@@ -68,7 +68,7 @@ const UserLoginForm: React.FC = () => {
             setTimeout(() => {
                 router.push("/");
             }, 2000);
-        };
+        }
     };
 
     return (
@@ -97,7 +97,7 @@ const UserLoginForm: React.FC = () => {
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <label htmlFor="nameInput" className="form-label fw-semibold">
-                            {t("Username")}:
+                            Username:
                         </label>
                         <input
                             id="nameInput"
@@ -112,7 +112,7 @@ const UserLoginForm: React.FC = () => {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="nameInput" className="form-label fw-semibold">
-                            {t("Password")}:
+                            Password:
                         </label>
                         <input
                             id="passwordInput"
@@ -127,7 +127,7 @@ const UserLoginForm: React.FC = () => {
                     </div>
 
                     <button type="submit" className="btn btn-primary w-100 fw-semibold py-2">
-                        {t("login.button")}
+                        Login
                     </button>
                 </form>
             </div>

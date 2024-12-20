@@ -16,12 +16,10 @@ export type Event = {
     id?: number;
     title: string;
     description: string;
-    createdAt: Date;
-    eventInfos: EventInfos[];
-    users: User[];
+    eventInfos: EventInfo[];
 }
 
-export type EventInfos = {
+export type EventInfo = {
     id?: number;
     category: string;
     location: string;

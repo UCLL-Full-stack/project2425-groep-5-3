@@ -7,8 +7,18 @@ import swaggerUi from 'swagger-ui-express';
 import { eventRouter } from './controller/event.routes';
 import { userRouter } from './controller/user.routes';
 import { expressjwt } from 'express-jwt';
+import helmet from 'helmet';
 
 const app = express();
+app.use(helmet());
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            connectSrc: ["'self'", 'https://api.ucll.be'],
+        },
+    })
+);
+
 dotenv.config();
 const port = process.env.APP_PORT || 3000;
 

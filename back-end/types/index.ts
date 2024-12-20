@@ -25,7 +25,7 @@ type EventInput = {
     id?: number;
     title: string;
     description: string;
-    eventInfo: EventInfoInput[];
+    eventInfos: EventInfoInput[];
     users: UserInput[]
 }
 

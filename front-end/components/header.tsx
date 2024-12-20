@@ -28,6 +28,10 @@ const Header: React.FC = () => {
                 <Link href="/events" className="nav-link fs-5 text-white px-3 py-2">
                     Events
                 </Link>
+                <Link href="/create" className="nav-link fs-5 text-white px-3 py-2">
+                    Create Event
+                </Link>
+
 
                 {!loggedInUser && (
                     <Link href="/login" className="nav-link fs-5 text-white px-3 py-2">
