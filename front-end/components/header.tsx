@@ -50,7 +50,7 @@ const Header: React.FC = () => {
                         Welcome, {loggedInUser.username}!
                     </div>
                 )}
-                <Language />
+
             </nav>
         </header>
 

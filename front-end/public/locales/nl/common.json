@@ -1,0 +1,11 @@
+{
+    "app.title" : "Evenementen",
+    "welcome": "Welkom op de evenementen planner",
+    "home.description" : "Evenementen Planner geeft opportuniteiten aan gebruikers om mee te doen aan evenementen naar hun wens",
+    "login" : {
+        "button": "Login"
+    },
+    "Username": "Gebruikersnaam",
+    "Password": "Passwoord"
+
+}

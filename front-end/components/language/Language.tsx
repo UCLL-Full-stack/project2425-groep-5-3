@@ -22,8 +22,8 @@ const Language: React.FC = () => {
                 value={locale}
                 onChange={handleLanguageChange}
             >
-                <option value="nl">Nederlands</option>
                 <option value="en">English</option>
+                <option value="nl">Nederlands</option>
             </select>
         </div>
     );

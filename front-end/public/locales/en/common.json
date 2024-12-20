@@ -1,0 +1,11 @@
+{
+    "app.title" : "Events",
+    "welcome": "Welcome to Event Planner",
+    "home.description" : "Event Planner gives users opportunities to participate in events of their choice.",
+    "login" : {
+        "button": "Login"
+    },
+    "Username": "Username",
+    "Password": "Password"
+
+}

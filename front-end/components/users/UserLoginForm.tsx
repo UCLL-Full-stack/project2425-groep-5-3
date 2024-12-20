@@ -3,8 +3,12 @@ import { StatusMessage } from "@types";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+
 
 const UserLoginForm: React.FC = () => {
+    const { t } = useTranslation("common");
+
     const router = useRouter();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -12,8 +16,8 @@ const UserLoginForm: React.FC = () => {
     const [passwordError, setPasswordError] = useState<string | null>(null);
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
 
+
     const clearErrors = () => {
-        //reset errors and status messages
         setUsernameError(null);
         setPasswordError(null);
         setStatusMessages([]);
@@ -23,7 +27,6 @@ const UserLoginForm: React.FC = () => {
         let result = true;
 
         if (!username || username.trim() === "") {
-            // set error here
             setUsernameError("Username is required");
             result = false;
         }
@@ -94,7 +97,7 @@ const UserLoginForm: React.FC = () => {
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <label htmlFor="nameInput" className="form-label fw-semibold">
-                            Username:
+                            {t("Username")}:
                         </label>
                         <input
                             id="nameInput"
@@ -109,7 +112,7 @@ const UserLoginForm: React.FC = () => {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="nameInput" className="form-label fw-semibold">
-                            Password:
+                            {t("Password")}:
                         </label>
                         <input
                             id="passwordInput"
@@ -124,7 +127,7 @@ const UserLoginForm: React.FC = () => {
                     </div>
 
                     <button type="submit" className="btn btn-primary w-100 fw-semibold py-2">
-                        Login
+                        {t("login.button")}
                     </button>
                 </form>
             </div>
